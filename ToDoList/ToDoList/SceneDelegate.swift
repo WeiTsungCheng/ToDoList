@@ -20,8 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScence
          
         let navagationViewController = UINavigationController()
-        
-        let todoListViewController = ToDoListViewController()
+        let todoListViewModel = ToDoListViewModel()
+        let todoListViewController = ToDoListViewController(viewModel: todoListViewModel)
         
         navagationViewController.pushViewController(todoListViewController, animated: false)
     

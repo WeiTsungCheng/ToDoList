@@ -10,9 +10,6 @@ import SnapKit
 
 class ToDoListViewController: UIViewController {
 
-    let viewModel = ToDoListViewModel()
-    let loationManager = LocationManager.shared
-    
     lazy var todoListTableView: UITableView = {
        
         let tbv = UITableView()
@@ -33,14 +30,39 @@ class ToDoListViewController: UIViewController {
         btn.setTitle("Add New Item", for: .normal)
         btn.contentHorizontalAlignment = .center
         btn.contentVerticalAlignment = .center
+        btn.addTarget(self, action: #selector(goEditItemPage(_:)), for: .touchUpInside)
         
         return btn
     }()
+    
+    @objc private func goEditItemPage(_: UIButton) {
+        
+        let editItemViewModel = EditItemViewModel()
+        let editItemViewController = EditItemViewController(viewModel: editItemViewModel)
+        self.navigationController?.pushViewController(editItemViewController, animated: false)
+    }
+    
+    let loationManager = LocationManager.shared
+    
+    var viewModel: ToDoListViewModel
+    
+    init(viewModel: ToDoListViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
+        
+        viewModel.getQuotes { [weak self] result in
+            self?.todoListTableView.reloadData()
+        }
         
     }
     
@@ -85,7 +107,7 @@ class ToDoListViewController: UIViewController {
 
                         if UIApplication.shared.canOpenURL(settingsUrl) {
                             UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                                print("Settings opened: \(success)") // Prints true
+                                print("Settings opened: \(success)")
                             })
                         }
                     }
@@ -99,6 +121,7 @@ class ToDoListViewController: UIViewController {
             return
         }
         print("Location: ", currentLocation.coordinate.latitude, currentLocation.coordinate.longitude)
+        
     }
     
 
@@ -114,7 +137,7 @@ extension ToDoListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 10
+        return viewModel.toDoItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -123,6 +146,18 @@ extension ToDoListViewController: UITableViewDataSource {
 
             return UITableViewCell()
         }
+        
+        cell.titleTextField.text = viewModel.toDoItems[indexPath.row].title
+        cell.descriptionTextView.text = viewModel.toDoItems[indexPath.row].description
+        
+        cell.createdDateTextField.text = "create: " +  Date.dateToString(date: viewModel.toDoItems[indexPath.row].createDate)
+ 
+        cell.dueDateTextField.text = "due: " +  Date.dateToString(date: viewModel.toDoItems[indexPath.row].dueDate)
+        
+        let latitude = viewModel.toDoItems[indexPath.row].coordinate.latitude
+        let longitude = viewModel.toDoItems[indexPath.row].coordinate.longitude
+         
+        cell.locationTextField.text = "location: (\(String(format: "%.4f", longitude)), \(String(format: "%.4f", latitude)))"
        
         return cell
     }

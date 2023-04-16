@@ -25,7 +25,7 @@ class ToDoTableViewCell: UITableViewCell {
         
         let txf = UITextField()
         txf.textColor = .black
-        txf.placeholder = "Item Title"
+        txf.isEnabled = false
         
         return txf
     }()
@@ -44,6 +44,7 @@ class ToDoTableViewCell: UITableViewCell {
         let txv = UITextView()
         txv.textColor = .black
         txv.backgroundColor = .gray
+        txv.isEditable = false
         
         return txv
     }()
@@ -63,7 +64,7 @@ class ToDoTableViewCell: UITableViewCell {
         
         let txf = UITextField()
         txf.textColor = .black
-        txf.placeholder = "Create date"
+        txf.isEnabled = false
         
         return txf
     }()
@@ -72,7 +73,7 @@ class ToDoTableViewCell: UITableViewCell {
     
         let txf = UITextField()
         txf.textColor = .black
-        txf.placeholder = "Due date"
+        txf.isEnabled = false
         
         return txf
     }()
@@ -81,7 +82,7 @@ class ToDoTableViewCell: UITableViewCell {
         
         let txf = UITextField()
         txf.textColor = .black
-        txf.placeholder = "Location"
+        txf.isEnabled = false
         
         return txf
     }()
@@ -118,12 +119,11 @@ class ToDoTableViewCell: UITableViewCell {
         
         todoStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(8)
-            make.size.equalToSuperview().offset(-8)
         }
         
         descriptionTextView.snp.makeConstraints { make in
             make.height.equalTo(80)
-            make.width.equalToSuperview().offset(-8)
+            make.width.equalToSuperview()
         }
         
         dateStackView.snp.makeConstraints { make in
