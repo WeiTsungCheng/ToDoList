@@ -14,6 +14,7 @@ struct ToDoItem: Codable {
     let createDate: Date
     let dueDate: Date
     let coordinate: Coordinate
+    
 }
 
 struct Coordinate: Codable {

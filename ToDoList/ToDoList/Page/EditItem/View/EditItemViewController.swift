@@ -86,14 +86,59 @@ class EditItemViewController: UIViewController {
         return dp
     }()
     
-    lazy var locationTextField: UITextField = {
+    lazy var locationStackView: UIStackView = {
         
-        let txf = UITextField()
-        txf.textColor = .black
-        txf.placeholder = "location: (121.5188, 25.0223)"
+        let stv = UIStackView()
+        stv.alignment = .leading
+        stv.axis = .horizontal
+        stv.spacing = 4
+        stv.distribution = .fill
         
-        return txf
+        return stv
     }()
+    
+    lazy var locationLabel: UILabel = {
+        
+        let lbl = UILabel()
+        lbl.textColor = .black
+        
+        guard let location = LocationManager.shared.currentLocation else {
+            return lbl
+        }
+        
+        // 預設為當下所在位置
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        
+        lbl.text = "(\(String(format: "%.4f", longitude)), \(String(format: "%.4f", latitude)))"
+        
+        return lbl
+    }()
+    
+    lazy var locationButton: UIButton = {
+        
+        let btn = UIButton()
+        btn.setImage(UIImage(systemName: "map.fill"), for: .normal)
+        btn.addTarget(self, action: #selector(showCoordinateSearchPage(_:)), for: .touchUpInside)
+        
+        return btn
+    }()
+    
+    @objc func showCoordinateSearchPage(_: UIButton) {
+        
+        let coordinateSearchViewController = CoordinateSearchViewController()
+        
+        coordinateSearchViewController.passCoordinateClosure = { coordinate in
+            
+            let latitude = coordinate.latitude
+            let longitude = coordinate.longitude
+            
+            self.locationLabel.text = "(\(String(format: "%.4f", longitude)), \(String(format: "%.4f", latitude)))"
+            
+        }
+        present(coordinateSearchViewController, animated: true)
+        
+    }
     
     lazy var descriptionTextView: UITextView = {
         
@@ -121,7 +166,7 @@ class EditItemViewController: UIViewController {
                                 createDate: self.createdDateDatePicker.date,
                                 dueDate: self.dueDateDatePicker.date,
                                 coordinate: Coordinate(latitude: 1, longitude: 2))
-        printContent(todoItem)
+        print(todoItem)
         
     }
     
@@ -157,10 +202,13 @@ class EditItemViewController: UIViewController {
         editItemStackView.addArrangedSubview(descriptionLabel)
         editItemStackView.addArrangedSubview(descriptionTextView)
         editItemStackView.addArrangedSubview(dateStackView)
-        editItemStackView.addArrangedSubview(locationTextField)
+        editItemStackView.addArrangedSubview(locationStackView)
         
         dateStackView.addArrangedSubview(createdDateDatePicker)
         dateStackView.addArrangedSubview(dueDateDatePicker)
+        
+        locationStackView.addArrangedSubview(locationLabel)
+        locationStackView.addArrangedSubview(locationButton)
     
         editItemScrollView.snp.makeConstraints { make in
             

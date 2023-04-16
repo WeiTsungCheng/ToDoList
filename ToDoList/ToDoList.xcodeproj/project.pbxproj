@@ -26,6 +26,9 @@
 		F4ECFE2729EAC6AC0074964D /* LoadFileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE2629EAC6AC0074964D /* LoadFileResponse.swift */; };
 		F4ECFE2A29EACD9D0074964D /* QuotableResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE2929EACD9D0074964D /* QuotableResources.swift */; };
 		F4ECFE2D29EB06C00074964D /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE2C29EB06C00074964D /* DateExtension.swift */; };
+		F4ECFE2F29EBD8A60074964D /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE2E29EBD8A60074964D /* MapManager.swift */; };
+		F4ECFE3529EBE93F0074964D /* CoordinateSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE3429EBE93F0074964D /* CoordinateSearchViewController.swift */; };
+		F4ECFE3729EBE9650074964D /* CoordinateSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE3629EBE9650074964D /* CoordinateSearchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +52,8 @@
 		F4ECFE2929EACD9D0074964D /* QuotableResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotableResources.swift; sourceTree = "<group>"; };
 		F4ECFE2C29EB06C00074964D /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		F4ECFE2E29EBD8A60074964D /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
+		F4ECFE3429EBE93F0074964D /* CoordinateSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateSearchViewController.swift; sourceTree = "<group>"; };
+		F4ECFE3629EBE9650074964D /* CoordinateSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateSearchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +116,7 @@
 			children = (
 				F4ECFE0729E86A620074964D /* ToDoList */,
 				F4ECFE1429EA8E050074964D /* EditItem */,
+				F4ECFE3129EBE8830074964D /* CoordinateSearch */,
 			);
 			path = Page;
 			sourceTree = "<group>";
@@ -234,6 +240,31 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		F4ECFE3129EBE8830074964D /* CoordinateSearch */ = {
+			isa = PBXGroup;
+			children = (
+				F4ECFE3229EBE8E90074964D /* View */,
+				F4ECFE3329EBE8EF0074964D /* ViewModel */,
+			);
+			path = CoordinateSearch;
+			sourceTree = "<group>";
+		};
+		F4ECFE3229EBE8E90074964D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F4ECFE3429EBE93F0074964D /* CoordinateSearchViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F4ECFE3329EBE8EF0074964D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F4ECFE3629EBE9650074964D /* CoordinateSearchViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -315,6 +346,7 @@
 				F4ECFE2529EAC6A70074964D /* RequestResponse.swift in Sources */,
 				F4ECFE2D29EB06C00074964D /* DateExtension.swift in Sources */,
 				F4ECFDFE29E866DC0074964D /* ToDoListViewModel.swift in Sources */,
+				F4ECFE3529EBE93F0074964D /* CoordinateSearchViewController.swift in Sources */,
 				F4ECFE2A29EACD9D0074964D /* QuotableResources.swift in Sources */,
 				F4ECFE2F29EBD8A60074964D /* MapManager.swift in Sources */,
 				F4ECFE2129EAC3170074964D /* QuotableListAPI.swift in Sources */,
@@ -325,6 +357,7 @@
 				F4ECFDFC29E866D70074964D /* ToDoListViewController.swift in Sources */,
 				F4ECFE0D29E86AEC0074964D /* UITableViewCellExtension.swift in Sources */,
 				F4ECFDEA29E866A00074964D /* SceneDelegate.swift in Sources */,
+				F4ECFE3729EBE9650074964D /* CoordinateSearchViewModel.swift in Sources */,
 				F4ECFE2729EAC6AC0074964D /* LoadFileResponse.swift in Sources */,
 				F4ECFE0029E866E20074964D /* ToDoTableViewCell.swift in Sources */,
 				F4ECFE1A29EA8E9C0074964D /* EditItemViewModel.swift in Sources */,
