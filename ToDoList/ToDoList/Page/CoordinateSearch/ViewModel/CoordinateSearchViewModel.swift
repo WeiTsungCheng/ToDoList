@@ -6,7 +6,19 @@
 //
 
 import Foundation
+import CoreLocation
 
 class CoordinateSearchViewModel {
     
+    var selectLocation: CLLocationCoordinate2D? {
+        didSet {
+            
+            guard let selectLocation = selectLocation else {
+                return
+            }
+            selectCoordinateObervable.value =  "\(selectLocation.longitude), \(selectLocation.latitude)"
+        }
+    }
+    
+    var selectCoordinateObervable = Observable<String>(value: "")
 }

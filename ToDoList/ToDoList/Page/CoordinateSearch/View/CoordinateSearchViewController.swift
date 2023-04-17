@@ -9,10 +9,11 @@ import UIKit
 import MapKit
 
 
-class CoordinateSearchViewController: UIViewController {
+class CoordinateSearchViewController: UIViewController, NetWorkStatusProtocal {
     
     lazy var mapView: MKMapView = {
         let mv = MKMapView()
+        mv.showsUserLocation = true
         
         return mv
     }()
@@ -51,33 +52,67 @@ class CoordinateSearchViewController: UIViewController {
     }()
     
     @objc private func selectCoordinate(_: UIButton) {
-       
-        passCoordinateClosure!(CLLocationCoordinate2D(latitude: 1, longitude: 2))
         
+        guard let location = viewModel.selectLocation else {
+            return
+        }
+        
+        passCoordinateClosure?(location)
         dismiss(animated: true)
     }
     
-    
     var passCoordinateClosure: ((CLLocationCoordinate2D) -> Void)?
+    
+    var observerNetStatusChangedNotification: NSObjectProtocol?
+    
+    func noticeNetStatusChanged(_ nofification: Notification) {
+        checkNetStatusAlert()
+    }
+    
+    var viewModel: CoordinateSearchViewModel
+    
+    init(viewModel: CoordinateSearchViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpUI()
+        registerNetStatusManager()
         addGesture()
         
         MapManager.shared.delegate = self
-        
-        mapView.showsUserLocation = true
         MapManager.shared.mapView = mapView
+        
+        
+        if let coordinate = LocationManager.shared.currentLocation?.coordinate {
+            
+            let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 800, longitudinalMeters: 800)
+            mapView.setRegion(region, animated: true)
+        }
+        
+                
         mapView.delegate = MapManager.shared
         
+        viewModel.selectCoordinateObervable.addObserver { text in
+            self.selectCoordinateTextField.text  = text
+        }
+        
+    }
+    
+    deinit {
+        unregisterNetStatusManager()
     }
     
     private func setUpUI() {
         
         self.view.backgroundColor = .systemGray
-        
         self.view.addSubview(searchTextField)
         self.view.addSubview(mapView)
         self.view.addSubview(selectCoordinateTextField)
@@ -146,7 +181,7 @@ extension CoordinateSearchViewController: MapManagerProtocol {
     
     func selectedCoordinateOnMap(_ coodinate: CLLocationCoordinate2D) {
         
-        selectCoordinateTextField.text = "\(coodinate.longitude), \(coodinate.latitude)"
+        viewModel.selectLocation = coodinate
     }
     
 }

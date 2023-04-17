@@ -9,11 +9,19 @@ import Foundation
 
 struct ToDoItem: Codable {
     
-    let title: String
-    let description: String
-    let createDate: Date
-    let dueDate: Date
-    let coordinate: Coordinate
+    var title: String
+    var description: String
+    var createDate: Date
+    var dueDate: Date
+    var coordinate: Coordinate
+    
+    init(title: String, description: String, createDate: Date, dueDate: Date, coordinate: Coordinate) {
+        self.title = title
+        self.description = description
+        self.createDate = createDate
+        self.dueDate = dueDate
+        self.coordinate = coordinate
+    }
     
 }
 

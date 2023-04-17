@@ -8,7 +8,14 @@
 import UIKit
 import SnapKit
 
-class ToDoListViewController: UIViewController {
+class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
+    
+    lazy var quotableTextView: UITextView = {
+        let txv = UITextView()
+        txv.backgroundColor = .cyan
+        
+        return txv
+    }()
 
     lazy var todoListTableView: UITableView = {
        
@@ -37,12 +44,28 @@ class ToDoListViewController: UIViewController {
     
     @objc private func goEditItemPage(_: UIButton) {
         
-        let editItemViewModel = EditItemViewModel()
+        let duetDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+        
+        guard let location = LocationManager.shared.currentLocation else {
+            return
+        }
+        
+        let coordinate = Coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+     
+        let editItemViewModel = EditItemViewModel(editingItem: ToDoItem(title: "", description: "", createDate: Date(), dueDate: duetDate, coordinate: coordinate))
+        
         let editItemViewController = EditItemViewController(viewModel: editItemViewModel)
+        
         self.navigationController?.pushViewController(editItemViewController, animated: false)
     }
     
     let loationManager = LocationManager.shared
+    
+    var observerNetStatusChangedNotification: NSObjectProtocol?
+    
+    func noticeNetStatusChanged(_ nofification: Notification) {
+        checkNetStatusAlert()
+    }
     
     var viewModel: ToDoListViewModel
     
@@ -59,17 +82,37 @@ class ToDoListViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
+        registerNetStatusManager()
+        viewModel.getQuotes()
         
-        viewModel.getQuotes { [weak self] result in
-            self?.todoListTableView.reloadData()
+        viewModel.quotableObservable.addObserver { quotable in
+            
+            guard let quotable = quotable else {
+                return
+            }
+            
+            self.quotableTextView.text = """
+                Author: \(quotable.author)
+                Content: \(quotable.content)
+                Date Added: \(quotable.dateAdded)
+                Tags: \(quotable.tags)
+            """
         }
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
+        checkNetStatusAlert()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         remindUserProvideLocationAuthorization()
 
+    }
+    
+    deinit {
+        unregisterNetStatusManager()
     }
     
     private func setupUI() {
@@ -77,12 +120,20 @@ class ToDoListViewController: UIViewController {
         self.title = "To Do List"
         self.view.backgroundColor = .white
         
+        self.view.addSubview(quotableTextView)
         self.view.addSubview(todoListTableView)
         self.view.addSubview(addNewItemButton)
         
+        quotableTextView.snp.makeConstraints { make in
+        
+            make.top.equalTo(self.view.snp.topMargin).offset(8)
+            make.leading.trailing.equalToSuperview().inset(8)
+            make.height.equalTo(100)
+        }
+        
         todoListTableView.snp.makeConstraints { make in
             
-            make.top.equalTo(self.view.snp.topMargin)
+            make.top.equalTo(self.quotableTextView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(self.view.snp.bottomMargin).offset(-44)
         }
@@ -157,7 +208,7 @@ extension ToDoListViewController: UITableViewDataSource {
         let latitude = viewModel.toDoItems[indexPath.row].coordinate.latitude
         let longitude = viewModel.toDoItems[indexPath.row].coordinate.longitude
          
-        cell.locationTextField.text = "location: (\(String(format: "%.4f", longitude)), \(String(format: "%.4f", latitude)))"
+        cell.locationTextField.text = "location: (\(String(format: "%.6f", longitude)), \(String(format: "%.6f", latitude)))"
        
         return cell
     }

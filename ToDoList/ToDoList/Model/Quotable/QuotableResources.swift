@@ -7,18 +7,6 @@
 
 import Foundation
 
-// MARK: - Quotables
-struct QuotableResources: Codable {
-    let count, totalCount, page, totalPages: Int
-    let lastItemIndex: Int
-    let quotables: [Quotable]
-    
-    enum CodingKeys: String, CodingKey {
-        case quotables = "results"
-        case count, totalCount, page, totalPages, lastItemIndex
-    }
-}
-
 // MARK: - Quotable
 struct Quotable: Codable {
     let id: String

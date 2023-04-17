@@ -12,12 +12,13 @@ class ToDoListViewModel {
     
     var toDoItems: [ToDoItem] = []
     let locationManager: LocationManager = LocationManager.shared
+    var quotableObservable = Observable<Quotable?>(value: nil)
     
-    func getQuotes(completion: @escaping((Result<SuccessResponse, FailureResponse>) -> Void)) {
+    func getQuotes() {
         
         let api = QuotableListAPI()
         
-        api.fetchQuotes { result in
+        api.fetchQuotes { [weak self] result in
             
             DispatchQueue.main.async {
                 
@@ -26,35 +27,20 @@ class ToDoListViewModel {
                 
                     if case .normal(let content) = response.type {
                         
-                        if let content = content as? QuotableResources {
+                        if let content = content as? [Quotable], let quotable =  content.first {
                             
-                            // Convert [Quotable] to [ToDoItem]
-                            let toDoItems = content.quotables.map { quotable in
-                                
-                                
-                                let date = quotable.dateAdded
-                                let calendar = Calendar.current
-                                let nextDay = calendar.date(byAdding: .day, value: 1, to: date) ?? Date()
-                                
-                                // 當前地點作為預設座標
-                                
-                                let coordinate = Coordinate(latitude: self.locationManager.currentLocation!.coordinate.latitude, longitude: self.locationManager.currentLocation!.coordinate.longitude)
+                            self?.quotableObservable.value = quotable
+                            return
                             
-                                return ToDoItem(title: quotable.author, description: quotable.content, createDate: quotable.dateAdded, dueDate: nextDay, coordinate: coordinate)
-                            }
-                            
-                            self.toDoItems = toDoItems
-                            
-                            completion(.success(response))
+                        } else {
+                            self?.quotableObservable.value = nil
                             return
                         }
                     }
                     
-                    completion(.failure(FailureResponse(statusCode: nil, type: .incorrectResponse)))
-                    
                 case .failure(let response):
                     
-                    completion(.failure(response))
+                    print(response)
                     return
                 }
                 

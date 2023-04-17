@@ -34,6 +34,7 @@ class MapManager: NSObject {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         mapView?.addAnnotation(annotation)
+        mapView?.selectAnnotation(annotation, animated: true)
     }
     
     func search(query: String?) {
@@ -64,8 +65,21 @@ class MapManager: NSObject {
             }
             
             for annotation in annotations {
+                
                 self.addAnnotation(at: annotation.coordinate)
+            
             }
+            
+            if let annotation = annotations.first {
+                
+                let region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 800, longitudinalMeters: 800)
+                
+                mapView.setRegion(region, animated: true)
+                mapView.selectAnnotation(annotation, animated: false)
+               
+            }
+                   
+            
             
         }
     }

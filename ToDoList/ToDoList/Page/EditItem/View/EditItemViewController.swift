@@ -9,12 +9,11 @@ import UIKit
 import SnapKit
 
 class EditItemViewController: UIViewController {
-
+    
     lazy var editItemScrollView: UIScrollView = {
-       
+        
         let srv = UIScrollView()
         return srv
-        
     }()
     
     lazy var editItemContentView: UIView = {
@@ -41,6 +40,7 @@ class EditItemViewController: UIViewController {
         let txf = UITextField()
         txf.textColor = .black
         txf.placeholder = "Item Title"
+        txf.delegate = self
         
         return txf
     }()
@@ -54,8 +54,18 @@ class EditItemViewController: UIViewController {
         return lbl
     }()
     
+    lazy var descriptionTextView: UITextView = {
+        
+        let txv = UITextView()
+        txv.textColor = .black
+        txv.backgroundColor = .gray
+        txv.delegate = self
+        
+        return txv
+    }()
+    
     lazy var dateStackView: UIStackView = {
-       
+        
         let stv = UIStackView()
         stv.alignment = .leading
         stv.axis = .horizontal
@@ -65,26 +75,35 @@ class EditItemViewController: UIViewController {
         return stv
     }()
     
-    lazy var createdDateDatePicker: UIDatePicker = {
+    lazy var createDateDatePicker: UIDatePicker = {
         
         let dp = UIDatePicker()
         dp.datePickerMode = .date
-        dp.date = Date()
         dp.overrideUserInterfaceStyle = .light
-    
+        dp.addTarget(self, action: #selector(selectCreateDate(_:)), for: .valueChanged)
+        
         return dp
     }()
+    
+    @objc private func selectCreateDate(_ datePicker : UIDatePicker) {
+        
+        self.viewModel.editingItem.createDate = datePicker.date
+    }
     
     lazy var dueDateDatePicker: UIDatePicker = {
-    
+        
         let dp = UIDatePicker()
         dp.datePickerMode = .date
-        let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
-        dp.date = nextDate
         dp.overrideUserInterfaceStyle = .light
+        dp.addTarget(self, action: #selector(selectDueDate(_:)), for: .valueChanged)
         
         return dp
     }()
+    
+    @objc private func selectDueDate(_ datePicker : UIDatePicker) {
+        
+        self.viewModel.editingItem.dueDate = datePicker.date
+    }
     
     lazy var locationStackView: UIStackView = {
         
@@ -101,17 +120,6 @@ class EditItemViewController: UIViewController {
         
         let lbl = UILabel()
         lbl.textColor = .black
-        
-        guard let location = LocationManager.shared.currentLocation else {
-            return lbl
-        }
-        
-        // 預設為當下所在位置
-        let latitude = location.coordinate.latitude
-        let longitude = location.coordinate.longitude
-        
-        lbl.text = "(\(String(format: "%.4f", longitude)), \(String(format: "%.4f", latitude)))"
-        
         return lbl
     }()
     
@@ -126,28 +134,19 @@ class EditItemViewController: UIViewController {
     
     @objc func showCoordinateSearchPage(_: UIButton) {
         
-        let coordinateSearchViewController = CoordinateSearchViewController()
+        let coordinateSearchViewModel = CoordinateSearchViewModel()
+        let coordinateSearchViewController = CoordinateSearchViewController(viewModel: coordinateSearchViewModel)
         
         coordinateSearchViewController.passCoordinateClosure = { coordinate in
             
             let latitude = coordinate.latitude
             let longitude = coordinate.longitude
             
-            self.locationLabel.text = "(\(String(format: "%.4f", longitude)), \(String(format: "%.4f", latitude)))"
-            
+            self.viewModel.editingItem.coordinate = Coordinate(latitude: latitude, longitude: longitude)
         }
+        
         present(coordinateSearchViewController, animated: true)
-        
     }
-    
-    lazy var descriptionTextView: UITextView = {
-        
-        let txv = UITextView()
-        txv.textColor = .black
-        txv.backgroundColor = .gray
-        
-        return txv
-    }()
     
     lazy var confirmButton: UIButton = {
         
@@ -161,11 +160,7 @@ class EditItemViewController: UIViewController {
     
     @objc func confirmEditItem(_: UIButton) {
         
-        let todoItem = ToDoItem(title: self.titleTextField.text ?? "",
-                                description: self.descriptionTextView.text ?? "",
-                                createDate: self.createdDateDatePicker.date,
-                                dueDate: self.dueDateDatePicker.date,
-                                coordinate: Coordinate(latitude: 1, longitude: 2))
+        let todoItem = self.viewModel.editingItem
         print(todoItem)
         
     }
@@ -183,8 +178,24 @@ class EditItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setUpUI()
+        addGesture()
+        
+        viewModel.editingItemObservable.value = viewModel.editingItem
+        
+        viewModel.editingItemObservable.addObserver { todoItem in
+            
+            guard let todoItem = todoItem else {
+                return
+            }
+            
+            self.titleTextField.text = todoItem.title
+            self.descriptionTextView.text = todoItem.description
+            self.createDateDatePicker.date = todoItem.createDate
+            self.dueDateDatePicker.date = todoItem.dueDate
+            self.locationLabel.text = "(\(String(format: "%.6f", todoItem.coordinate.longitude)), \(String(format: "%.6f", todoItem.coordinate.latitude)))"
+        }
     }
     
     func setUpUI() {
@@ -204,12 +215,12 @@ class EditItemViewController: UIViewController {
         editItemStackView.addArrangedSubview(dateStackView)
         editItemStackView.addArrangedSubview(locationStackView)
         
-        dateStackView.addArrangedSubview(createdDateDatePicker)
+        dateStackView.addArrangedSubview(createDateDatePicker)
         dateStackView.addArrangedSubview(dueDateDatePicker)
         
         locationStackView.addArrangedSubview(locationLabel)
         locationStackView.addArrangedSubview(locationButton)
-    
+        
         editItemScrollView.snp.makeConstraints { make in
             
             make.topMargin.leading.trailing.equalToSuperview()
@@ -234,6 +245,10 @@ class EditItemViewController: UIViewController {
             make.leading.trailing.top.equalToSuperview().inset(8)
         }
         
+        titleTextField.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
+        
         descriptionTextView.snp.makeConstraints { make in
             make.height.equalTo(80)
             make.width.equalToSuperview()
@@ -243,7 +258,37 @@ class EditItemViewController: UIViewController {
             make.width.equalToSuperview().inset(4)
         }
         
-        
     }
+    
+    private func addGesture() {
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        descriptionTextView.resignFirstResponder()
+        titleTextField.resignFirstResponder()
+    }
+    
+}
 
+extension EditItemViewController: UITextFieldDelegate {
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == titleTextField {
+            viewModel.editingItem.title = textField.text ?? ""
+        }
+    }
+    
+}
+
+extension EditItemViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView == descriptionTextView {
+            viewModel.editingItem.description = textView.text
+        }
+    }
+    
 }

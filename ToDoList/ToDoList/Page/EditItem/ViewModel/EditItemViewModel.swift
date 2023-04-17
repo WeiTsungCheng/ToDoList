@@ -11,8 +11,17 @@ class EditItemViewModel {
     
     var isEditing: Bool
     
-    init(isEditing: Bool = false) {
+    var editingItem: ToDoItem {
+        didSet {
+            editingItemObservable.value = editingItem
+        }
+    }
+    
+    var editingItemObservable = Observable<ToDoItem?>(value: nil)
+    
+    init(isEditing: Bool = false, editingItem: ToDoItem) {
         self.isEditing = isEditing
+        self.editingItem = editingItem
     }
     
 }

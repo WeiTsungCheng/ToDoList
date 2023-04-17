@@ -22,7 +22,7 @@ final class QuotableListAPI {
         var r = HTTPRequest(scheme: url.scheme ?? "https")
         r.host = url.host
         r.port = url.port
-        r.path = "/quotes"
+        r.path = "/quotes/random"
         r.method = .get
         
         loader.load(request: r) { result in
@@ -45,7 +45,7 @@ final class QuotableListAPI {
                     let decoder = JSONDecoder()
                     
                     do {
-                        let items = try decoder.decode(QuotableResources.self, from: data)
+                        let items = try decoder.decode([Quotable].self, from: data)
                         
                         let successResponse = SuccessResponse(statusCode: response.status.rawValue, type: .normal(content: items))
                         
