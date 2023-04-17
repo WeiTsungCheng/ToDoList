@@ -14,6 +14,7 @@ struct ToDoItem: Codable {
     var createDate: Date
     var dueDate: Date
     var coordinate: Coordinate
+    let id: String
     
     init(title: String, description: String, createDate: Date, dueDate: Date, coordinate: Coordinate) {
         self.title = title
@@ -21,6 +22,7 @@ struct ToDoItem: Codable {
         self.createDate = createDate
         self.dueDate = dueDate
         self.coordinate = coordinate
+        self.id = UUID().uuidString
     }
     
 }

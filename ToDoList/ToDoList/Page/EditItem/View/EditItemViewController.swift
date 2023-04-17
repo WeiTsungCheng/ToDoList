@@ -152,7 +152,7 @@ class EditItemViewController: UIViewController {
         
         let btn = UIButton()
         btn.setTitle("Confirm", for: .normal)
-        btn.backgroundColor = .red
+        btn.backgroundColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
         btn.addTarget(self, action: #selector(confirmEditItem(_:)), for: .touchUpInside)
         
         return btn
@@ -160,11 +160,13 @@ class EditItemViewController: UIViewController {
     
     @objc func confirmEditItem(_: UIButton) {
         
-        let todoItem = self.viewModel.editingItem
-        print(todoItem)
-        
+        viewModel.saveToDoItem(completion: { [weak self] in
+            
+            self?.navigationController?.popViewController(animated: true)
+        })
+       
     }
-    
+
     var viewModel: EditItemViewModel
     
     init(viewModel: EditItemViewModel) {
@@ -184,17 +186,17 @@ class EditItemViewController: UIViewController {
         
         viewModel.editingItemObservable.value = viewModel.editingItem
         
-        viewModel.editingItemObservable.addObserver { todoItem in
+        viewModel.editingItemObservable.addObserver { toDoItem in
             
-            guard let todoItem = todoItem else {
+            guard let toDoItem = toDoItem else {
                 return
             }
             
-            self.titleTextField.text = todoItem.title
-            self.descriptionTextView.text = todoItem.description
-            self.createDateDatePicker.date = todoItem.createDate
-            self.dueDateDatePicker.date = todoItem.dueDate
-            self.locationLabel.text = "(\(String(format: "%.6f", todoItem.coordinate.longitude)), \(String(format: "%.6f", todoItem.coordinate.latitude)))"
+            self.titleTextField.text = toDoItem.title
+            self.descriptionTextView.text = toDoItem.description
+            self.createDateDatePicker.date = toDoItem.createDate
+            self.dueDateDatePicker.date = toDoItem.dueDate
+            self.locationLabel.text = "(\(String(format: "%.6f", toDoItem.coordinate.longitude)), \(String(format: "%.6f", toDoItem.coordinate.latitude)))"
         }
     }
     

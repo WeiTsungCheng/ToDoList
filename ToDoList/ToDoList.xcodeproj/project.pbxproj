@@ -32,6 +32,7 @@
 		F4ECFE3A29EC705B0074964D /* NetWorkStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE3929EC705B0074964D /* NetWorkStatusManager.swift */; };
 		F4ECFE3C29EC70B30074964D /* NetWorkStatusProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE3B29EC70B30074964D /* NetWorkStatusProtocol.swift */; };
 		F4ECFE3F29EC7C5A0074964D /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE3E29EC7C5A0074964D /* Observable.swift */; };
+		F4ECFE4129ECF59F0074964D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE4029ECF59F0074964D /* StorageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		F4ECFE3929EC705B0074964D /* NetWorkStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkStatusManager.swift; sourceTree = "<group>"; };
 		F4ECFE3B29EC70B30074964D /* NetWorkStatusProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkStatusProtocol.swift; sourceTree = "<group>"; };
 		F4ECFE3E29EC7C5A0074964D /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		F4ECFE4029ECF59F0074964D /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 				F4ECFE3829EC70230074964D /* NetWorkStatusManager */,
 				F4ECFE0129E866E80074964D /* LocationManager.swift */,
 				F4ECFE2E29EBD8A60074964D /* MapManager.swift */,
+				F4ECFE4029ECF59F0074964D /* StorageManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				F4ECFE0229E866E80074964D /* LocationManager.swift in Sources */,
 				F4ECFE1829EA8E790074964D /* EditItemViewController.swift in Sources */,
 				F4ECFDFC29E866D70074964D /* ToDoListViewController.swift in Sources */,
+				F4ECFE4129ECF59F0074964D /* StorageManager.swift in Sources */,
 				F4ECFE0D29E86AEC0074964D /* UITableViewCellExtension.swift in Sources */,
 				F4ECFE3C29EC70B30074964D /* NetWorkStatusProtocol.swift in Sources */,
 				F4ECFDEA29E866A00074964D /* SceneDelegate.swift in Sources */,

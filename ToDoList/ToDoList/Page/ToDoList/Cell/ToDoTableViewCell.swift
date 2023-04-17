@@ -10,7 +10,7 @@ import SnapKit
 
 class ToDoTableViewCell: UITableViewCell {
     
-    lazy var todoStackView: UIStackView = {
+    lazy var toDoStackView: UIStackView = {
        
         let stv = UIStackView()
         stv.alignment = .leading
@@ -108,16 +108,16 @@ class ToDoTableViewCell: UITableViewCell {
         
         self.contentView.backgroundColor =  #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
-        contentView.addSubview(todoStackView)
-        todoStackView.addArrangedSubview(titleTextField)
-        todoStackView.addArrangedSubview(descriptionLabel)
-        todoStackView.addArrangedSubview(descriptionTextView)
-        todoStackView.addArrangedSubview(dateStackView)
+        contentView.addSubview(toDoStackView)
+        toDoStackView.addArrangedSubview(titleTextField)
+        toDoStackView.addArrangedSubview(descriptionLabel)
+        toDoStackView.addArrangedSubview(descriptionTextView)
+        toDoStackView.addArrangedSubview(dateStackView)
         dateStackView.addArrangedSubview(createdDateTextField)
         dateStackView.addArrangedSubview(dueDateTextField)
-        todoStackView.addArrangedSubview(locationTextField)
+        toDoStackView.addArrangedSubview(locationTextField)
         
-        todoStackView.snp.makeConstraints { make in
+        toDoStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(8)
         }
         

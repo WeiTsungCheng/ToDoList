@@ -10,8 +10,13 @@ import DolphinHTTP
 
 class ToDoListViewModel {
     
-    var toDoItems: [ToDoItem] = []
-    let locationManager: LocationManager = LocationManager.shared
+    var toDoItems: [ToDoItem] = [] {
+        didSet {
+            toDoItemsObservable.value = toDoItems
+        }
+    }
+    var toDoItemsObservable = Observable<[ToDoItem]>(value: [])
+    
     var quotableObservable = Observable<Quotable?>(value: nil)
     
     func getQuotes() {
@@ -48,6 +53,29 @@ class ToDoListViewModel {
             
         }
         
+    }
+    
+    func loadToDoItems() {
+    
+        let toDoItems: [ToDoItem] = StorageManager.shared.loadObjectArray(for: .toDoItems) ?? []
+        
+        print("toDoItems: ", toDoItems)
+        self.toDoItems = toDoItems
+    }
+    
+    func deleteToDoItem(at indexPath: IndexPath) {
+            
+        let toDoItem = toDoItems[indexPath.row]
+        
+        toDoItems.remove(at: indexPath.row)
+        
+        var oldToDoItems: [ToDoItem] = StorageManager.shared.loadObjectArray(for: .toDoItems) ?? []
+       
+        oldToDoItems = oldToDoItems.filter { item in
+            return item.id != toDoItem.id
+         }
+        
+        StorageManager.shared.saveObjectArray(for: .toDoItems, value: oldToDoItems)
     }
     
 }

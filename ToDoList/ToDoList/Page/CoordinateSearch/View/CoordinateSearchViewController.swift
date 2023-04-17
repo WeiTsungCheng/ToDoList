@@ -44,7 +44,7 @@ class CoordinateSearchViewController: UIViewController, NetWorkStatusProtocal {
     
     lazy var selectButton: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+        btn.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
         btn.setTitle("Select", for: .normal)
         btn.addTarget(self, action: #selector(selectCoordinate(_:)), for: .touchUpInside)
         
