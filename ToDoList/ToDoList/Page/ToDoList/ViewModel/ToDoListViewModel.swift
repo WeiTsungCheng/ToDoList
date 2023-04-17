@@ -10,11 +10,16 @@ import DolphinHTTP
 
 class ToDoListViewModel {
     
+    var remindAddItemTextViewIsHiddenObservable = Observable<Bool>(value: true)
+    
     var toDoItems: [ToDoItem] = [] {
         didSet {
             toDoItemsObservable.value = toDoItems
+            remindAddItemTextViewIsHiddenObservable.value = toDoItems.count != 0
+            
         }
     }
+    
     var toDoItemsObservable = Observable<[ToDoItem]>(value: [])
     
     var quotableObservable = Observable<Quotable?>(value: nil)
@@ -57,9 +62,12 @@ class ToDoListViewModel {
     
     func loadToDoItems() {
     
-        let toDoItems: [ToDoItem] = StorageManager.shared.loadObjectArray(for: .toDoItems) ?? []
+        var toDoItems: [ToDoItem] = StorageManager.shared.loadObjectArray(for: .toDoItems) ?? []
         
         print("toDoItems: ", toDoItems)
+        
+        // 用 due date 排序, 最快發生的放前面
+        toDoItems.sort(by: {$0.dueDate < $1.dueDate})
         self.toDoItems = toDoItems
     }
     

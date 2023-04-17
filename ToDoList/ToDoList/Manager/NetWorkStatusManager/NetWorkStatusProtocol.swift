@@ -37,11 +37,11 @@ extension NetWorkStatusProtocal where Self: UIViewController {
         DispatchQueue.main.async {
             if !(NetWorkStatusManager.sharedIntance!.isConnected) {
                 
-                let alertController = UIAlertController(title: "注意", message:"目前無法偵測到網路連線, 請檢查您的網路環境是否正常", preferredStyle: .alert)
-                let confirmAlertAction = UIAlertAction(title: "確認", style: .default) { _ in
+                let alertController = UIAlertController(title: "Note", message:"No network line detected at this time", preferredStyle: .alert)
+                let confirmAlertAction = UIAlertAction(title: "Confirm", style: .default) { _ in
                     self.checkNetStatusAlert()
                 }
-                let cancelAlertAction = UIAlertAction(title:"忽略", style: .cancel, handler: nil)
+                let cancelAlertAction = UIAlertAction(title:"Ignore", style: .cancel, handler: nil)
                 
                 alertController.addAction(confirmAlertAction)
                 alertController.addAction(cancelAlertAction)

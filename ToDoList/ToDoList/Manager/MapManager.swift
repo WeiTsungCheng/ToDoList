@@ -65,9 +65,7 @@ class MapManager: NSObject {
             }
             
             for annotation in annotations {
-                
                 self.addAnnotation(at: annotation.coordinate)
-            
             }
             
             if let annotation = annotations.first {

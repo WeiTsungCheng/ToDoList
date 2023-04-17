@@ -12,7 +12,9 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
     
     lazy var quotableTextView: UITextView = {
         let txv = UITextView()
+        txv.font = UIFont.systemFont(ofSize: 16)
         txv.backgroundColor = .cyan
+        txv.isEditable = false
         
         return txv
     }()
@@ -29,6 +31,18 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
         tbv.rowHeight = UITableView.automaticDimension
         
         return tbv
+    }()
+    
+    lazy var remindAddItemTextView: UITextView = {
+        
+        let txv = UITextView()
+        txv.font = UIFont.systemFont(ofSize: 20)
+        txv.text = "The current tasks have been completed, please click the button below to add"
+        txv.textColor = .white
+        txv.backgroundColor = .clear
+        txv.isHidden = true
+        
+        return txv
     }()
     
     lazy var addNewItemButton: UIButton = {
@@ -94,6 +108,11 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
             self?.toDoListTableView.reloadData()
         }
         
+        viewModel.remindAddItemTextViewIsHiddenObservable.addObserver { [weak self] isHidden in
+            
+            self?.remindAddItemTextView.isHidden = isHidden
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,6 +138,15 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
         self.view.addSubview(quotableTextView)
         self.view.addSubview(toDoListTableView)
         self.view.addSubview(addNewItemButton)
+        
+        toDoListTableView.backgroundView = remindAddItemTextView
+        
+        remindAddItemTextView.snp.makeConstraints { make in
+           
+            make.centerX.centerY.equalToSuperview()
+            make.width.equalToSuperview().inset(12)
+            make.height.equalTo(100)
+        }
         
         quotableTextView.snp.makeConstraints { make in
             
