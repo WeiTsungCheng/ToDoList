@@ -193,7 +193,7 @@ class EditItemViewController: UIViewController {
             }
             
             self.titleTextField.text = toDoItem.title
-            self.descriptionTextView.text = toDoItem.description
+            self.descriptionTextView.text = toDoItem.content
             self.createDateDatePicker.date = toDoItem.createDate
             self.dueDateDatePicker.date = toDoItem.dueDate
             self.locationLabel.text = "(\(String(format: "%.6f", toDoItem.coordinate.longitude)), \(String(format: "%.6f", toDoItem.coordinate.latitude)))"
@@ -289,7 +289,7 @@ extension EditItemViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         if textView == descriptionTextView {
-            viewModel.editingItem.description = textView.text
+            viewModel.editingItem.content = textView.text
         }
     }
     

@@ -15,7 +15,7 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
         txv.font = UIFont.systemFont(ofSize: 16)
         txv.backgroundColor = .cyan
         txv.isEditable = false
-        
+
         return txv
     }()
     
@@ -221,7 +221,7 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
             
             let coordinate = Coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             
-            let item = ToDoItem(title: "", description: "", createDate: Date(), dueDate: duetDate, coordinate: coordinate)
+            let item = ToDoItem(title: "", content: "", createDate: Date(), dueDate: duetDate, coordinate: coordinate)
             
             newItem = item
         }
@@ -289,7 +289,7 @@ extension ToDoListViewController: UITableViewDataSource {
         }
         
         cell.titleTextField.text = viewModel.toDoItems[indexPath.row].title
-        cell.descriptionTextView.text = viewModel.toDoItems[indexPath.row].description
+        cell.descriptionTextView.text = viewModel.toDoItems[indexPath.row].content
         
         cell.createdDateTextField.text = "create: " +  Date.dateToString(date: viewModel.toDoItems[indexPath.row].createDate)
         
