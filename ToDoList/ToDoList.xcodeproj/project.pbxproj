@@ -33,6 +33,9 @@
 		F4ECFE3C29EC70B30074964D /* NetWorkStatusProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE3B29EC70B30074964D /* NetWorkStatusProtocol.swift */; };
 		F4ECFE3F29EC7C5A0074964D /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE3E29EC7C5A0074964D /* Observable.swift */; };
 		F4ECFE4129ECF59F0074964D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE4029ECF59F0074964D /* StorageManager.swift */; };
+		F4ECFE4429ED68850074964D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F4ECFE4329ED68850074964D /* Realm */; };
+		F4ECFE4629ED68850074964D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F4ECFE4529ED68850074964D /* RealmSwift */; };
+		F4ECFE9B29FE9C700074964D /* ToDoItemRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECFE9A29FE9C700074964D /* ToDoItemRealm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +65,7 @@
 		F4ECFE3B29EC70B30074964D /* NetWorkStatusProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkStatusProtocol.swift; sourceTree = "<group>"; };
 		F4ECFE3E29EC7C5A0074964D /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		F4ECFE4029ECF59F0074964D /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		F4ECFE9A29FE9C700074964D /* ToDoItemRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemRealm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4ECFE4629ED68850074964D /* RealmSwift in Frameworks */,
+				F4ECFE4429ED68850074964D /* Realm in Frameworks */,
 				F4ECFE1029E870260074964D /* SnapKit in Frameworks */,
 				F4ECFE1329E870990074964D /* DolphinHTTP in Frameworks */,
 			);
@@ -98,6 +104,7 @@
 			children = (
 				F4ECFDE729E866A00074964D /* AppDelegate.swift */,
 				F4ECFDE929E866A00074964D /* SceneDelegate.swift */,
+				F4ECFE9829FE9B1B0074964D /* Realm */,
 				F4ECFE2B29EB06700074964D /* Extension */,
 				F4ECFE1E29EAA9600074964D /* WebAPI */,
 				F4ECFE1B29EAA62F0074964D /* Model */,
@@ -293,6 +300,22 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		F4ECFE9829FE9B1B0074964D /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				F4ECFE9929FE9B2A0074964D /* Model */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
+		F4ECFE9929FE9B2A0074964D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F4ECFE9A29FE9C700074964D /* ToDoItemRealm.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -312,6 +335,8 @@
 			packageProductDependencies = (
 				F4ECFE0F29E870260074964D /* SnapKit */,
 				F4ECFE1229E870990074964D /* DolphinHTTP */,
+				F4ECFE4329ED68850074964D /* Realm */,
+				F4ECFE4529ED68850074964D /* RealmSwift */,
 			);
 			productName = ToDoList;
 			productReference = F4ECFDE429E866A00074964D /* ToDoList.app */;
@@ -344,6 +369,7 @@
 			packageReferences = (
 				F4ECFE0E29E870260074964D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				F4ECFE1129E870990074964D /* XCRemoteSwiftPackageReference "DolphinHTTP" */,
+				F4ECFE4229ED68850074964D /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = F4ECFDE529E866A00074964D /* Products */;
 			projectDirPath = "";
@@ -389,6 +415,7 @@
 				F4ECFE3C29EC70B30074964D /* NetWorkStatusProtocol.swift in Sources */,
 				F4ECFDEA29E866A00074964D /* SceneDelegate.swift in Sources */,
 				F4ECFE3F29EC7C5A0074964D /* Observable.swift in Sources */,
+				F4ECFE9B29FE9C700074964D /* ToDoItemRealm.swift in Sources */,
 				F4ECFE3729EBE9650074964D /* CoordinateSearchViewModel.swift in Sources */,
 				F4ECFE2729EAC6AC0074964D /* LoadFileResponse.swift in Sources */,
 				F4ECFE0029E866E20074964D /* ToDoTableViewCell.swift in Sources */,
@@ -618,6 +645,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		F4ECFE4229ED68850074964D /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -630,6 +665,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F4ECFE1129E870990074964D /* XCRemoteSwiftPackageReference "DolphinHTTP" */;
 			productName = DolphinHTTP;
+		};
+		F4ECFE4329ED68850074964D /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4ECFE4229ED68850074964D /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		F4ECFE4529ED68850074964D /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4ECFE4229ED68850074964D /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

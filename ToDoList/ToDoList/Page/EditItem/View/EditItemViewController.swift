@@ -142,7 +142,10 @@ class EditItemViewController: UIViewController {
             let latitude = coordinate.latitude
             let longitude = coordinate.longitude
             
-            self.viewModel.editingItem.coordinate = Coordinate(latitude: latitude, longitude: longitude)
+            let item = self.viewModel.editingItem
+            item.coordinate = Coordinate(latitude: latitude, longitude: longitude)
+            
+            self.viewModel.editingItem = item
         }
         
         present(coordinateSearchViewController, animated: true)
@@ -160,10 +163,10 @@ class EditItemViewController: UIViewController {
     
     @objc func confirmEditItem(_: UIButton) {
         
-        viewModel.saveToDoItem(completion: { [weak self] in
-            
+        viewModel.saveToDoItemRealm { [weak self] in
+
             self?.navigationController?.popViewController(animated: true)
-        })
+        }
        
     }
 
@@ -193,7 +196,7 @@ class EditItemViewController: UIViewController {
             }
             
             self.titleTextField.text = toDoItem.title
-            self.descriptionTextView.text = toDoItem.description
+            self.descriptionTextView.text = toDoItem.content
             self.createDateDatePicker.date = toDoItem.createDate
             self.dueDateDatePicker.date = toDoItem.dueDate
             self.locationLabel.text = "(\(String(format: "%.6f", toDoItem.coordinate.longitude)), \(String(format: "%.6f", toDoItem.coordinate.latitude)))"
@@ -289,7 +292,7 @@ extension EditItemViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         if textView == descriptionTextView {
-            viewModel.editingItem.description = textView.text
+            viewModel.editingItem.content = textView.text
         }
     }
     

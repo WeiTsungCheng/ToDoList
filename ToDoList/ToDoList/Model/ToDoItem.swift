@@ -7,29 +7,35 @@
 
 import Foundation
 
-struct ToDoItem: Codable {
+class ToDoItem: Codable {
     
     var title: String
-    var description: String
+    var content: String
     var createDate: Date
     var dueDate: Date
     var coordinate: Coordinate
-    let id: String
+    var id: String
     
-    init(title: String, description: String, createDate: Date, dueDate: Date, coordinate: Coordinate) {
+    init(title: String, content: String, createDate: Date, dueDate: Date, coordinate: Coordinate, id: String = UUID().uuidString) {
+        
         self.title = title
-        self.description = description
+        self.content = content
         self.createDate = createDate
         self.dueDate = dueDate
         self.coordinate = coordinate
-        self.id = UUID().uuidString
+        self.id = id
     }
     
 }
 
-struct Coordinate: Codable {
+class Coordinate: Codable {
     
-    let latitude: Double
-    let longitude: Double
+    var latitude: Double
+    var longitude: Double
+    
+    init(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
 
 }

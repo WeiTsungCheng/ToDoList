@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import RealmSwift
 
 class EditItemViewModel {
+    
+    let realm = try! Realm()
     
     var isEditing: Bool
     
@@ -24,42 +27,41 @@ class EditItemViewModel {
         self.editingItem = editingItem
     }
     
-    func saveToDoItem(completion: @escaping(() -> Void)) {
+    func saveToDoItemRealm(completion: @escaping(() -> Void)) {
+        
+        let toDoItem = editingItem
+        let item = ToDoItemRealm(toDoItem: toDoItem)
         
         // isEditing 為 true 更新 ToDoItem
         // isEditing 為 false 新增 ToDoItem
         if (isEditing) {
             
-            let toDoItem = editingItem
-            
-            var toDoItems: [ToDoItem] = StorageManager.shared.loadObjectArray(for: .toDoItems) ?? []
-            
-            toDoItems = toDoItems.map { item in
+            guard let toDoItemRealm = realm.object(ofType: ToDoItemRealm.self, forPrimaryKey: toDoItem.id) else {
                 
-                if (item.id == toDoItem.id) {
-                    return toDoItem
-                    
-                } else {
-                    return item
-                }
+                completion()
+                return
             }
             
-            StorageManager.shared.saveObjectArray(for: .toDoItems, value: toDoItems)
+            try! realm.write({
+                
+                toDoItemRealm.title = item.title
+                toDoItemRealm.content = item.content
+                toDoItemRealm.createDate = item.createDate
+                toDoItemRealm.dueDate = item.dueDate
+                toDoItemRealm.coordinate = item.coordinate
+                
+            })
+            
             
         } else {
             
-            let toDoItem = editingItem
-            
-            var toDoItems: [ToDoItem] = StorageManager.shared.loadObjectArray(for: .toDoItems) ?? []
-            
-            toDoItems.append(toDoItem)
-            
-            StorageManager.shared.saveObjectArray(for: .toDoItems, value: toDoItems)
-            
+            try! realm.write({
+                realm.add(item)
+            })
         }
         
         completion()
-        
+    
     }
     
     

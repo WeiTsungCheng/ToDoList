@@ -3,4 +3,134 @@
    uuid = "C4131778-ACB2-4C36-8049-830CAA1ED5C7"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1A19B784-417E-43D2-B3E3-76209BC0A014"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ToDoList/Page/EditItem/View/EditItemViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "showCoordinateSearchPage(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1A19B784-417E-43D2-B3E3-76209BC0A014 - 6e52cdb4cf435bb7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.CLLocationCoordinate2D) -&gt; () in ToDoList.EditItemViewController.showCoordinateSearchPage(__C.UIButton) -&gt; ()"
+                  moduleName = "ToDoList"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wei-tsung-cheng/Desktop/ToDoList/ToDoList/ToDoList/Page/EditItem/View/EditItemViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "145"
+                  endingLineNumber = "145"
+                  offsetFromSymbolStart = "72">
+               </Location>
+               <Location
+                  uuid = "1A19B784-417E-43D2-B3E3-76209BC0A014 - 6e52cdb4cf435bb7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.CLLocationCoordinate2D) -&gt; () in ToDoList.EditItemViewController.showCoordinateSearchPage(__C.UIButton) -&gt; ()"
+                  moduleName = "ToDoList"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wei-tsung-cheng/Desktop/ToDoList/ToDoList/ToDoList/Page/EditItem/View/EditItemViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "145"
+                  endingLineNumber = "145"
+                  offsetFromSymbolStart = "80">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A1B72DB6-95A5-4E96-A38F-98517C532E6E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ToDoList/Page/CoordinateSearch/ViewModel/CoordinateSearchViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "selectLocation"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D847D9B0-2FD6-43BB-A751-FABFEDFC5932"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ToDoList/Page/CoordinateSearch/View/CoordinateSearchViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "selectCoordinate(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "07C333C5-815F-44CC-8845-828FA1731FDC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ToDoList/Page/ToDoList/View/ToDoListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "goEditItemPage(isEditing:with:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "07C333C5-815F-44CC-8845-828FA1731FDC - ffe504fd191a5d53"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ToDoList.ToDoListViewController.goEditItemPage(isEditing: Swift.Bool, with: Swift.Optional&lt;ToDoList.ToDoItem&gt;) -&gt; ()"
+                  moduleName = "ToDoList"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wei-tsung-cheng/Desktop/ToDoList/ToDoList/ToDoList/Page/ToDoList/View/ToDoListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "584">
+               </Location>
+               <Location
+                  uuid = "07C333C5-815F-44CC-8845-828FA1731FDC - ffe504fd191a5d70"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ToDoList.ToDoListViewController.goEditItemPage(isEditing: Swift.Bool, with: Swift.Optional&lt;ToDoList.ToDoItem&gt;) -&gt; ()"
+                  moduleName = "ToDoList"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wei-tsung-cheng/Desktop/ToDoList/ToDoList/ToDoList/Page/ToDoList/View/ToDoListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "210"
+                  endingLineNumber = "210"
+                  offsetFromSymbolStart = "444">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -36,6 +36,7 @@ class CoordinateSearchViewController: UIViewController, NetWorkStatusProtocal {
     lazy var selectCoordinateTextField: UITextField = {
         let txf = UITextField()
         txf.backgroundColor = .white
+        txf.textColor = .black
         txf.placeholder = "The coordinates of the currently selected position"
         txf.isEnabled = false
         

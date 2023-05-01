@@ -7,15 +7,17 @@
 
 import UIKit
 import SnapKit
+import CoreLocation
 
 class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
     
     lazy var quotableTextView: UITextView = {
         let txv = UITextView()
+        txv.textColor = .black
         txv.font = UIFont.systemFont(ofSize: 16)
         txv.backgroundColor = .cyan
         txv.isEditable = false
-        
+
         return txv
     }()
     
@@ -85,6 +87,8 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        
         setupUI()
         registerNetStatusManager()
         viewModel.getQuotes()
@@ -116,7 +120,7 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        viewModel.loadToDoItems()
+        viewModel.loadToDoItemRealms()
         checkNetStatusAlert()
         
     }
@@ -215,13 +219,12 @@ class ToDoListViewController: UIViewController, NetWorkStatusProtocal {
             
             let duetDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
             
-            guard let location = loationManager.currentLocation else {
-                return
-            }
+            let location = loationManager.currentLocation ?? CLLocation(latitude: 0, longitude: 0)
             
+           
             let coordinate = Coordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             
-            let item = ToDoItem(title: "", description: "", createDate: Date(), dueDate: duetDate, coordinate: coordinate)
+            let item = ToDoItem(title: "", content: "", createDate: Date(), dueDate: duetDate, coordinate: coordinate)
             
             newItem = item
         }
@@ -244,7 +247,8 @@ extension ToDoListViewController: UITableViewDelegate {
         
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
             
-            self?.viewModel.deleteToDoItem(at: indexPath)
+//            self?.viewModel.deleteToDoItem(at: indexPath)
+            self?.viewModel.deleteToDoItemRealm(at: indexPath)
             
             self?.toDoListTableView.beginUpdates()
             self?.toDoListTableView.deleteRows(at: [indexPath], with: .fade)
@@ -289,7 +293,7 @@ extension ToDoListViewController: UITableViewDataSource {
         }
         
         cell.titleTextField.text = viewModel.toDoItems[indexPath.row].title
-        cell.descriptionTextView.text = viewModel.toDoItems[indexPath.row].description
+        cell.descriptionTextView.text = viewModel.toDoItems[indexPath.row].content
         
         cell.createdDateTextField.text = "create: " +  Date.dateToString(date: viewModel.toDoItems[indexPath.row].createDate)
         

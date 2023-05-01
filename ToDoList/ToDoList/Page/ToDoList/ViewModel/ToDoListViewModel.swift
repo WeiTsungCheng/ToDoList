@@ -7,8 +7,11 @@
 
 import Foundation
 import DolphinHTTP
+import RealmSwift
 
 class ToDoListViewModel {
+    
+    let realm = try! Realm()
     
     var remindAddItemTextViewIsHiddenObservable = Observable<Bool>(value: true)
     
@@ -16,7 +19,6 @@ class ToDoListViewModel {
         didSet {
             toDoItemsObservable.value = toDoItems
             remindAddItemTextViewIsHiddenObservable.value = toDoItems.count != 0
-            
         }
     }
     
@@ -60,30 +62,35 @@ class ToDoListViewModel {
         
     }
     
-    func loadToDoItems() {
-    
-        var toDoItems: [ToDoItem] = StorageManager.shared.loadObjectArray(for: .toDoItems) ?? []
+    func loadToDoItemRealms() {
         
-        print("toDoItems: ", toDoItems)
+        let todoItemRealms: Results<ToDoItemRealm> = realm.objects(ToDoItemRealm.self)
         
-        // 用 due date 排序, 最快發生的放前面
+        var toDoItems: [ToDoItem] = todoItemRealms.map { todoItemRealm in
+            
+            return todoItemRealm.toDoItem()
+        }
+        
         toDoItems.sort(by: {$0.dueDate < $1.dueDate})
         self.toDoItems = toDoItems
     }
     
-    func deleteToDoItem(at indexPath: IndexPath) {
-            
-        let toDoItem = toDoItems[indexPath.row]
+    func deleteToDoItemRealm(at indexPath: IndexPath) {
         
+        let toDoItem = toDoItems[indexPath.row]
         toDoItems.remove(at: indexPath.row)
         
-        var oldToDoItems: [ToDoItem] = StorageManager.shared.loadObjectArray(for: .toDoItems) ?? []
-       
-        oldToDoItems = oldToDoItems.filter { item in
-            return item.id != toDoItem.id
-         }
+        guard let toDoItemRealm = realm.object(ofType: ToDoItemRealm.self, forPrimaryKey: toDoItem.id) else {
+            
+            return
+        }
         
-        StorageManager.shared.saveObjectArray(for: .toDoItems, value: oldToDoItems)
+        try! realm.write {
+            realm.delete(toDoItemRealm)
+        }
+        
     }
     
 }
+
+
