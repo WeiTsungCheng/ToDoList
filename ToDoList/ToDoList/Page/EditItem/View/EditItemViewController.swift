@@ -142,7 +142,10 @@ class EditItemViewController: UIViewController {
             let latitude = coordinate.latitude
             let longitude = coordinate.longitude
             
-            self.viewModel.editingItem.coordinate = Coordinate(latitude: latitude, longitude: longitude)
+            let item = self.viewModel.editingItem
+            item.coordinate = Coordinate(latitude: latitude, longitude: longitude)
+            
+            self.viewModel.editingItem = item
         }
         
         present(coordinateSearchViewController, animated: true)
@@ -160,10 +163,10 @@ class EditItemViewController: UIViewController {
     
     @objc func confirmEditItem(_: UIButton) {
         
-        viewModel.saveToDoItem(completion: { [weak self] in
-            
+        viewModel.saveToDoItemRealm { [weak self] in
+
             self?.navigationController?.popViewController(animated: true)
-        })
+        }
        
     }
 

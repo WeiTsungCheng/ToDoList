@@ -6,40 +6,32 @@
 //
 
 import Foundation
-import RealmSwift
 
-class ToDoItem: Object, Codable {
+class ToDoItem: Codable {
     
-    @Persisted var title: String
-    @Persisted var content: String
-    @Persisted var createDate: Date
-    @Persisted var dueDate: Date
-    @Persisted var coordinate: Coordinate
-    @Persisted var id: String
+    var title: String
+    var content: String
+    var createDate: Date
+    var dueDate: Date
+    var coordinate: Coordinate
+    var id: String
     
-    convenience init(title: String, content: String, createDate: Date, dueDate: Date) {
-        self.init()
-        self.title = title
-        self.content = content
-        self.createDate = createDate
-        self.dueDate = dueDate
-    }
-    
-    init(title: String, content: String, createDate: Date, dueDate: Date, coordinate: Coordinate) {
+    init(title: String, content: String, createDate: Date, dueDate: Date, coordinate: Coordinate, id: String = UUID().uuidString) {
+        
         self.title = title
         self.content = content
         self.createDate = createDate
         self.dueDate = dueDate
         self.coordinate = coordinate
-        self.id = UUID().uuidString
+        self.id = id
     }
     
 }
 
-class Coordinate: EmbeddedObject, Codable {
+class Coordinate: Codable {
     
-    @Persisted var latitude: Double
-    @Persisted var longitude: Double
+    var latitude: Double
+    var longitude: Double
     
     init(latitude: Double, longitude: Double) {
         self.latitude = latitude
